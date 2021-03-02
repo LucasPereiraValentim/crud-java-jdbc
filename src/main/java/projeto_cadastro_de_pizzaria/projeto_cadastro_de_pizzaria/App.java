@@ -12,6 +12,10 @@ import model.Pedido;
 
 public class App {
 	public static void main(String[] args) {
+		
+		
+		try {
+		
 		String login = JOptionPane.showInputDialog("Bem-vindo ao sistema de cadastramento de pedidos",
 				"Digite seu login");
 		String senha = JOptionPane.showInputDialog("Bem-vindo ao sistema de cadastramento de pedidos",
@@ -56,18 +60,22 @@ public class App {
 						
 					}
 					
-					Scanner scan = new Scanner(System.in);
 					
-					System.out.println("Deseja deletar algum pedido? (1. Sim) (2. Não)");
-					int opcaoMenu1 = scan.nextInt();
 					
-					if (opcaoMenu1 == 1) {
+					String opcaoMenu1 = JOptionPane.showInputDialog("1. Excluir pedido registrado\n2. Atualizar pedido");
+					
+					if (opcaoMenu1.equals("1")) {
 						String deletarRegistro = JOptionPane.showInputDialog(null, "Digite o CPF do registro para excluir");
 						dao.deletarTupla(deletarRegistro);
 					} else {
-						System.exit(0);
-					}
-					
+						Pedido pedido = new Pedido();
+						
+						pedido.setCpfCliente(JOptionPane.showInputDialog("Digite o CPF do cliente que deseja alterar o pedido"));
+						pedido.setSaborPizza(JOptionPane.showInputDialog("Digite o novo sabor de pizza escolhido pelo cliente"));
+						pedido.setTipoRefrigerante(JOptionPane.showInputDialog("Digite o novo tipo de refrigerante escolhido pelo cliente"));
+						
+						dao.atualizarTupla(pedido);	
+					} 
 					
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -76,6 +84,13 @@ public class App {
 
 		} else {
 			JOptionPane.showMessageDialog(null, "Acesso negado");
+		}
+		
+		
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Uma erro inesperado aconteceu!\nSISTEMA FINALIZADO!");
 		}
 
 	}

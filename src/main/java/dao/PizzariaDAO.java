@@ -117,6 +117,36 @@ public class PizzariaDAO {
 	}
 	
 	
+	
+	
+	
+	public void atualizarTupla(Pedido pedido) {
+		try {
+			String sql = "UPDATE pedido SET sabor_pizza=?, tipo_refrigerante=? WHERE cpf_cliente = '"+ pedido.getCpfCliente() +"'";
+			
+			PreparedStatement statement = connection.prepareStatement(sql);
+			
+			
+			statement.setString(1, pedido.getSaborPizza());
+			statement.setString(2, pedido.getTipoRefrigerante());
+			
+			statement.execute();
+			
+			connection.commit();
+			
+			System.out.println("Pedido atualizado com sucesso");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			try {
+				connection.rollback();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		}
+	}
+	
+	
 	public void deletarTupla(String cpfCliente) {
 		try {
 			String sqlPedido = "DELETE FROM pedido WHERE cpf_cliente = '" + cpfCliente + "'";
